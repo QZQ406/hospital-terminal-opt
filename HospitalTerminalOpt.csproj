@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net462</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>HospitalTerminalOpt</AssemblyName>
+    <RootNamespace>HospitalTerminalOpt</RootNamespace>
+    <Deterministic>true</Deterministic>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ILMerge" Version="3.0.41" />
+  </ItemGroup>
+
+  <Target Name="ILMerge" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <ILMergePath>$(NuGetPackageRoot)ilmerge\3.0.41\tools\net452\ILMerge.exe</ILMergePath>
+      <OutputPath>$(OutDir)</OutputPath>
+    </PropertyGroup>
+    <Exec Command="$(ILMergePath) /out:$(OutputPath)HospitalTerminalOpt.exe /ndebug $(OutputPath)HospitalTerminalOpt.exe" ContinueOnError="true" />
+  </Target>
+</Project>
